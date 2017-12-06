@@ -4,10 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/html/test_project/src/Musician/BlogBundle/Controller/DefaultController.php</file>
-            <file>file:/var/www/html/test_project/composer.json</file>
-            <file>file:/var/www/html/test_project/app/AppKernel.php</file>
-            <file>file:/var/www/html/test_project/src/Musician/BlogBundle/Resources/views/Default/index.html.twig</file>
-            <file>file:/var/www/html/test_project/app/config/routing.yml</file>
+            <file>file:/var/www/html/test_project/src/Musician/BlogBundle/Resources/views/default/index.html.twig</file>
         </group>
     </open-files>
 </project-private>
