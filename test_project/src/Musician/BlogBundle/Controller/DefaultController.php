@@ -18,4 +18,26 @@ class DefaultController extends Controller
          return array("text"=>"Musician Test Blog");
         //return new \Symfony\Component\HttpFoundation\Response("Musician Blog");
     }
+
+    /**
+     * @Route("/blog/all", name="all")
+     * @Template()
+     */
+    public function viewAllPostsAction()
+    {
+        //return $this->render('MusicianBlogBundle:Default:index.html.twig');
+         return array("text"=>"Musician Test Blog");
+        //return new \Symfony\Component\HttpFoundation\Response("Musician Blog");
+    }    
+
+    /**
+     * @Route("/blog/new", name="new")
+     * @Template()
+     */
+    public function newPostFormAction()
+    {
+        //return $this->render('MusicianBlogBundle:Default:index.html.twig');
+         return array("text"=>"Musician Test Blog");
+        //return new \Symfony\Component\HttpFoundation\Response("Musician Blog");
+    }       
 }
