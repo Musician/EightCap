@@ -35,7 +35,6 @@ class Blog
      * @var string
      *
      * @ORM\Column(name="title", type="string")
-     * @ORM\Title
      */
     private $title;
      
@@ -48,7 +47,6 @@ class Blog
      * @var text
      *
      * @ORM\Column(name="short_text", type="text")
-     * @ORM\Short_text
      */
     private $short_text;
      
@@ -61,7 +59,6 @@ class Blog
      * @var text
      *
      * @ORM\Column(name="long_text", type="text")
-     * @ORM\Long_text
      */
     private $long_text;
      
@@ -74,7 +71,6 @@ class Blog
      * @var string
      *
      * @ORM\Column(name="author", type="string")
-     * @ORM\Author
      */
     private $author;
      
@@ -86,8 +82,7 @@ class Blog
      /**
      * @var bool
      *
-     * @ORM\Column(name="active", type="bool")
-     * @ORM\Active
+     * @ORM\Column(name="active", type="integer")
      */
     private $active;
      
@@ -99,8 +94,7 @@ class Blog
      /**
      * @var date
      *
-     * @ORM\Column(name="created", type="date")
-     * @ORM\Created
+     * @ORM\Column(name="created", type="string")
      */
     private $created;
      
