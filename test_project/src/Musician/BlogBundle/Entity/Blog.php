@@ -89,7 +89,13 @@ class Blog
     public function getActive()
     {
         return $this->active;
-    }  
+    } 
+    
+    public function setActive($val=1)
+    {
+        $this->active= $val;
+        return $this->active;
+    } 
 
      /**
      * @var date

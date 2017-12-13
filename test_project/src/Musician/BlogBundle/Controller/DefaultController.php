@@ -55,6 +55,14 @@ class DefaultController extends Controller
      */    
     public function deletePostAction( $id = 0 )
     {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('MusicianBlogBundle:Blog')->find($id);
+        
+        $entity->setActive(0);
+                
+        $em->persist($entity);
+        $em->flush();  // When done, remove comment!
+        
         $response = new Response(json_encode(array("deleted" => $id)));
 
         $response->headers->set('Content-Type', 'application/json');
