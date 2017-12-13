@@ -24,9 +24,8 @@ function deletePost(id)
             method: 'delete'
 
         }).done(function() {
-            $("#delpost"+id).addClass('red').remove();
+            $("#delpost"+id).remove();
         });
-    
     }
 }
 
