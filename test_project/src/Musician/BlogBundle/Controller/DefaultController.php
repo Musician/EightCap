@@ -49,23 +49,14 @@ class DefaultController extends Controller
     } 
 
     /**
-     * @Route("/deletePost", name="deletePost", requirements={"id"})
+     * @Route("/deletePost/{id}", name="deletePost", requirements={"id"})
      * @Template()
      * @Method({"DELETE"})
      */    
-    public function deletePostAction()
+    public function deletePostAction( $id = 0 )
     {
-        // TODO: This Should be fixed
-        if (!empty($_REQUEST['id']))
-        {
-            $id = $_REQUEST['id'];
-            $response = new Response(json_encode(array("deleted" => $id)));
-        }
-        else
-        {
-            $response = new Response(json_encode(array("error" => "No ID provided.")));
-        }
-        
+        $response = new Response(json_encode(array("deleted" => $id)));
+
         $response->headers->set('Content-Type', 'application/json');
         return $response; 
     } 

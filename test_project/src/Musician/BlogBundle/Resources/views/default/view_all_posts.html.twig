@@ -12,7 +12,7 @@ function deletePost(id)
 {
     if (confirm('This will delete selected entry. Are you sure?'))
     {
-        var url = "{{ path('deletePost') }}";
+        var url = "{{ path('deletePost') }}" + "/" + id;
 
         $.ajax({
             async: true,
