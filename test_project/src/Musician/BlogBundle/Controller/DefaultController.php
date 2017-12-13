@@ -2,6 +2,8 @@
 
 namespace Musician\BlogBundle\Controller;
 
+use Musician\BlogBundle\Entity\Blog;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -65,6 +67,32 @@ class DefaultController extends Controller
         
         $response = new Response(json_encode(array("deleted" => $id)));
 
+        $response->headers->set('Content-Type', 'application/json');
+        return $response; 
+    } 
+    
+    
+    /**
+     * @Route("/createPost", name="createPost")
+     * @Template()
+     * @Method({"PUT"})
+     */  
+    public function createPostAction( )
+    {
+        $blog = new Blog();
+        $blog->setTitle();
+        $blog->setAuthor();
+        $blog->setActive();
+        $blog->setCreated(new \DateTime());
+        $blog->setShortText();
+        $blog->setLongText();
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($blog);
+        $em->flush();  // When done, remove comment!
+        
+        $response = new Response(json_encode(array("deleted" => $id)));
         $response->headers->set('Content-Type', 'application/json');
         return $response; 
     } 

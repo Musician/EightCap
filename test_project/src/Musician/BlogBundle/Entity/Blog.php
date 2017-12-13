@@ -42,6 +42,12 @@ class Blog
     {
         return $this->title;
     }
+    
+    public function setTitle($title)
+    {
+        $this->title= $title;
+        return $this;
+    } 
 
      /**
      * @var text
@@ -53,20 +59,32 @@ class Blog
     public function getShortText()
     {
         return $this->shortText;
-    }  
+    } 
+    
+    public function setShortText($text)
+    {
+        $this->shortText= $text;
+        return $this;
+    } 
     
      /**
      * @var text
      *
      * @ORM\Column(name="long_text", type="text")
      */
-    private $long_text;
+    private $longText;
      
     public function getLongText()
     {
-        return $this->long_text;
+        return $this->longText;
     }  
-     
+
+    public function setLongText($text)
+    {
+        $this->longText= $text;
+        return $this;
+    } 
+    
      /**
      * @var string
      *
@@ -77,7 +95,13 @@ class Blog
     public function getAuthor()
     {
         return $this->author;
-    }  
+    } 
+    
+    public function setAuthor($author)
+    {
+        $this->author= $author;
+        return $this;
+    }     
     
      /**
      * @var bool
@@ -94,7 +118,7 @@ class Blog
     public function setActive($val=1)
     {
         $this->active= $val;
-        return $this->active;
+        return $this;
     } 
 
      /**
@@ -108,5 +132,11 @@ class Blog
     {
         return $this->created;
     }  
+    
+    public function setCreated($time)
+    {
+        $this->created = $time;
+        return $this;
+    } 
     
 }
