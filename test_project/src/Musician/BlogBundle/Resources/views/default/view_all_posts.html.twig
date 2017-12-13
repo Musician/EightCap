@@ -1,11 +1,66 @@
 {% extends "@MusicianBlog/default/blogbase.html.twig" %}
 
 
-
 {% block content %}
+<style>
+.red {background-color: red;}
 
-{% for e in entities %}
-    {{  e.title }} <br />  
-{% endfor%}
+</style>
 
+<script>
+function deletePost(id)
+{
+    if (confirm('This will delete selected entry. Are you sure?'))
+    {
+        var url = "{{ path('deletePost') }}";
+
+        $.ajax({
+            async: true,
+            url: url,
+            data: {
+                'id': id
+            },
+            dataType: 'json',
+            method: 'delete'
+
+        }).done(function() {
+            $("#delpost"+id).addClass('red').remove();
+        });
+    
+    }
+}
+
+</script>
+
+    <table>
+        <thead>
+            <tr>
+            <td>Date</td>
+            <td>Author</td>
+            <td>Title</td>
+            <td>Brief</td>
+            <td style="width: 50px"> </td>
+            </tr>
+        </thead>
+        
+        <tbody>
+        {% for e in entities %}
+        <tr id="delpost{{ e.id }}">
+        <td>{{ e.created }}</td>
+        <td>{{ e.author }}</td>
+        <td>{{ e.title }}</td>
+        <td>{{ e.shortText }}</td>
+        <td valign="top">
+            <img src="https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/new-24-512.png" title="Edit" style="width: 15px" />
+            <img src="https://image.flaticon.com/icons/svg/121/121116.svg" title="Delete" style="width: 15px; cursor: pointer;" onClick="deletePost({{ e.id }})" />
+            
+            
+        </td>
+        </tr>
+        {% endfor%}
+        </tbody>
+    </table>
+        
+       <hr />
+        *Shown results are only the ones with 'active' set to 1. When delete, there is no actual delete, but setting a flag 'active' to 0. 
 {% endblock %}

@@ -48,11 +48,11 @@ class Blog
      *
      * @ORM\Column(name="short_text", type="text")
      */
-    private $short_text;
+    private $shortText;
      
     public function getShortText()
     {
-        return $this->short_text;
+        return $this->shortText;
     }  
     
      /**
