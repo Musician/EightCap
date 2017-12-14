@@ -7,6 +7,9 @@
         
         <link rel="stylesheet" href="{{ asset('bundles/musicianblog/css/bootstrap.css') }}" />
 
+        <script src="{{ asset('bundles/musicianblog/js/jquery.js') }}"></script>
+        <script src="{{ asset('bundles/musicianblog/js/popper.js') }}"></script>   
+        <script src="{{ asset('bundles/musicianblog/js/bootstrap.js') }}"></script>
  
 
     </head>
@@ -15,7 +18,7 @@
     <div id="cotnainer">
         <ul id="menu">
             <li><a href="{{ path('all') }}">View posts</a></li>
-            <li><a href="{{ path('new') }}">New post</a></li>
+            <li><button id='create-user'>New post</button></li>
         </ul>
     </div>
     
@@ -25,8 +28,6 @@
         {% endblock %}
         </div>
     
-    <script src="{{ asset('bundles/musicianblog/js/jquery.js') }}"></script>
-    <script src="{{ asset('bundles/musicianblog/js/popper.js') }}"></script>   
-    <script src="{{ asset('bundles/musicianblog/js/bootstrap.js') }}"></script>   
+   
     </body>
 </html>

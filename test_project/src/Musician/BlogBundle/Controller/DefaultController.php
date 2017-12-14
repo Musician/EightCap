@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\Form\Forms;
 
 
 
@@ -71,26 +74,35 @@ class DefaultController extends Controller
     
     
     /**
-     * @Route("/createPost", name="createPost")
+     * @Route("/createPost", name="createPost" , requirements={"name", "title", "post"})
      * @Template()
      * @Method({"PUT"})
      */  
-    public function createPostAction( )
+    public function createPostAction( $name = '', $title = '', $post = '' )
     {
         $blog = new Blog();
-        $blog->setTitle();
-        $blog->setAuthor();
+
+        $form = $this->createFormBuilder($blog)->getForm();
+        $request = Request::createFromGlobals();
+        $form->handleRequest($request);
+        
+        $name  = $request->get("name");
+        $title = $request->get("title");
+        $post  = $request->get("text");
+        
+        $blog->setTitle($title);
+        $blog->setAuthor($name);
         $blog->setActive();
-        $blog->setCreated(new \DateTime());
-        $blog->setShortText();
-        $blog->setLongText();
+        $blog->setCreated(date("Y-m-d H:i:s"));
+        $blog->setShortText(substr($post, 0, 150));
+        $blog->setLongText($post);
 
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($blog);
-        $em->flush();  // When done, remove comment!
+        $em->flush();
         
-        $response = new Response(json_encode(array("deleted" => $id)));
+        $response = new Response(json_encode(array("created" => "1")));
         $response->headers->set('Content-Type', 'application/json');
         return $response; 
     } 

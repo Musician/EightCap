@@ -2,10 +2,7 @@
 
 
 {% block content %}
-<style>
-.red {background-color: red;}
 
-</style>
 
 <script>
 function deletePost(id)
@@ -29,9 +26,30 @@ function deletePost(id)
     }
 }
 
+function createNewPost(name, title, text )
+{
+        var url = "{{ path('createPost') }}"; 
+
+        $.ajax({
+            async: true,
+            url: url,
+            data: {
+                'name': name,
+                'title': title,
+                'text': text
+            },
+            dataType: 'json',
+            method: 'put'
+
+        }).done(function() {
+           return true;
+        }); 
+    
+}
+
 </script>
 
-    <table>
+    <table id='allposts'>
         <thead>
             <tr>
             <td>Date</td>
@@ -62,4 +80,131 @@ function deletePost(id)
         
        <hr />
         *Shown results are only the ones with 'active' set to 1. When delete, there is no actual delete, but setting a flag 'active' to 0. 
+
+  <p class="validateTips">All form fields are required.</p>
+ 
+    <div id="dialog-form" title="Create new post">
+     <form>
+       <fieldset>
+         <label for="name">Name</label>
+         <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+         <label for="title">Title</label>
+         <input type="text" name="title" id="title"class="text ui-widget-content ui-corner-all">
+         <label for="post">Post</label>
+         <textarea name="post" id="post" class="text ui-widget-content ui-corner-all"></textarea>
+
+         <!-- Allow form submission with keyboard without duplicating the dialog button -->
+         <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+       </fieldset>
+     </form>
+   </div>
+    
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            var dialog, form,
+
+              emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+              name = $( "#name" ),
+              title = $( "#title" ),
+              post = $( "#post" ),
+              allFields = $( [] ).add( name ).add( title ).add( post ),
+              tips = $( ".validateTips" );
+
+            function updateTips( t ) {
+              tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+              setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+              }, 500 );
+            }
+
+            function checkLength( o, n, min, max ) {
+              if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Length of " + n + " must be between " +
+                  min + " and " + max + "." );
+                return false;
+              } else {
+                return true;
+              }
+            }
+
+
+            function addPost() {
+              var valid = true;
+              var textlength = 2000; // Maximum length of a post.
+              
+              
+              allFields.removeClass( "ui-state-error" );
+
+              valid = valid && checkLength( name, "username", 3, 16 );
+              valid = valid && checkLength( title, "title", 6, 80 );
+              valid = valid && checkLength( post, "post", 5, textlength );
+
+              if ( valid ) {
+                // AJAX POST
+                    createNewPost(name.val(), title.val(), post.val());
+                    var date = new Date();
+                    var datestring = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+                    $( "#allposts tbody" ).append( "<tr>" +
+                      "<td>" + datestring + "</td>" +
+                      "<td>" + name.val() + "</td>" +
+                      "<td>" + title.val() + "</td>" +
+                      "<td>" + post.val().substr(0, 50) + "</td>" +
+                    "</tr>" );
+
+                dialog.dialog( "close" );
+              }
+              return valid;
+            }
+
+            dialog = $( "#dialog-form" ).dialog({
+              autoOpen: false,
+              height: 500,
+              width: 650,
+              modal: true,
+              buttons: {
+                "Create post": addPost,
+                Cancel: function() {
+                  dialog.dialog( "close" );
+                }
+              },
+              close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+              }
+            });
+
+            form = dialog.find( "form" ).on( "submit", function( event ) {
+              event.preventDefault();
+              addPost();
+            });
+
+            $( "#create-user" ).button().on( "click", function() {
+              dialog.dialog( "open" );
+            });
+          } );
+    </script>
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }  
+    
+    textarea { width: 95%; height: 150px;}
+        
+    </style>
+    
+
+
 {% endblock %}
