@@ -20,9 +20,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        //return $this->render('MusicianBlogBundle:Default:index.html.twig');
          return array("text"=>"Musician Test Blog");
-        //return new \Symfony\Component\HttpFoundation\Response("Musician Blog");
     }
 
     /**
