@@ -57,6 +57,7 @@
               var valid = true;
               var textlength = 2000; // Maximum length of a post.
               
+              
               allFields.removeClass( "ui-state-error" );
 
               valid = valid && checkLength( name, "username", 3, 16 );
@@ -111,6 +112,27 @@
             
           } );    
     
+function createNewPost(name, title, text )
+{
+        var url = "{{ path('createPost') }}"; 
+
+        $.ajax({
+            async: true,
+            url: url,
+            data: {
+                'name': name,
+                'title': title,
+                'text': text
+            },
+            dataType: 'json',
+            method: 'put'
+
+        }).done(function() {
+           return true;
+        }); 
+    
+}
+
 function deletePost(id)
 {
     if (confirm('This will delete selected entry. Are you sure?'))
