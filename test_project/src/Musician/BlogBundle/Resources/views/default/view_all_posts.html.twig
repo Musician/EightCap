@@ -154,16 +154,47 @@ function deletePost(id)
     }
 }
 
-function updatePost(id )
+function updatePost()
 {
 
-        alert(id);
-        return;
+           function updPost() {
+
+                // AJAX POST
+
+                form[ 0 ].reset();
+                dialog.dialog( "close" );
+
+            }
+            
+            dialog = $( "#dialog-form" ).dialog({
+              autoOpen: false,
+              height: 500,
+              width: 650,
+              modal: true,
+              buttons: {
+                "Update post": updPost,
+                Cancel: function() {
+                  dialog.dialog( "close" );
+                }
+              },
+              close: function() {
+                form[ 0 ].reset();
+              }
+            });
+
+            form = dialog.find( "form" ).on( "submit", function( event ) {
+              event.preventDefault();
+              updPost();
+            });
+
+            dialog.dialog( "open" );
+
 
         $.ajax({
             async: true,
             url: url,
             data: {
+                'id': id,
                 'name': name,
                 'title': title,
                 'text': text
@@ -198,7 +229,7 @@ function updatePost(id )
         <td>{{ e.title }}</td>
         <td>{{ e.shortText }}</td>
         <td valign="top">
-            <img src="https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/new-24-512.png" title="Edit" style="width: 15px; cursor: pointer;" onClick="updatePost({{ e.id }})" /> &nbsp;&nbsp;&nbsp;
+            <img src="https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/new-24-512.png" title="Edit" style="width: 15px; cursor: pointer;" onClick="javascript: $('#postid').val('{{ e.id }}'); updatePost()" /> &nbsp;&nbsp;&nbsp;
             <img src="https://image.flaticon.com/icons/svg/121/121116.svg" title="Delete" style="width: 15px; cursor: pointer;" onClick="deletePost({{ e.id }})" />
             
             
@@ -222,6 +253,8 @@ function updatePost(id )
          <input type="text" name="title" id="title"class="text ui-widget-content ui-corner-all">
          <label for="post">Post</label>
          <textarea name="post" id="post" class="text ui-widget-content ui-corner-all"></textarea>
+		
+	 <input type="hidden" name="postid" id="postid" value=''>
 
          <!-- Allow form submission with keyboard without duplicating the dialog button -->
          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
