@@ -106,4 +106,57 @@ class DefaultController extends Controller
         $response->headers->set('Content-Type', 'application/json');
         return $response; 
     } 
+    
+    /**
+     * @Route("/updatePost", name="updatePost" , requirements={"id", "name", "title", "post"})
+     * @Template()
+     * @Method({"PUT"})
+     */  
+    public function updatePostAction( $id = '', $name = '', $title = '', $post = '' )
+    {
+        $blog = new Blog;
+
+        $form = $this->createFormBuilder($blog)->getForm();
+        $request = Request::createFromGlobals();
+        $form->handleRequest($request);
+        
+        $id    = $request->get("id");
+        $name  = $request->get("name");
+        $title = $request->get("title");
+        $post  = $request->get("post");
+        
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('MusicianBlogBundle:Blog')->find($id);        
+        $entity->setTitle($title);
+        $entity->setAuthor($name);
+        $entity->setShortText(substr($post, 0, 150));
+        $entity->setLongText($post);
+
+        $em->persist($entity);
+        $em->flush();
+        
+        $response = new Response(json_encode(array("updated" => "1")));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response; 
+    }     
+    
+    /**
+     * @Route("/blog/getpost/{id}", name="getpost", requirements={"id"})
+     * @Template()
+     * @Method({"GET"})
+     */
+    public function getPostsAction($id=0)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('MusicianBlogBundle:Blog')->find($id);
+        $r['name']  = $entities->getAuthor();
+        $r['title'] = $entities->getTitle();
+        $r['post'] = $entities->getLongText();
+        
+        $response = new Response(json_encode(array($r)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response; 
+    }
+
+    
 }

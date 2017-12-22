@@ -158,12 +158,30 @@ function updatePost()
 {
 
            function updPost() {
-
                 // AJAX POST
+                var url = "{{ path('updatePost') }}"; 
+                var id    = $('#postid').val();
+                var name  = $('#name').val();
+                var title = $('#title').val();
+                var post  = $('#post').val();
+                console.log(id);
+                $.ajax({
+                     async: true,
+                     url: url,
+                     data: {
+                         'id': id,
+                         'name': name,
+                         'title': title,
+                         'post': post
+                     },
+                     dataType: 'json',
+                     method: 'put'
 
-                form[ 0 ].reset();
-                dialog.dialog( "close" );
-
+                }).done(function() {
+                    form[ 0 ].reset();
+                    dialog.dialog( "close" );
+                    location.reload();
+                });
             }
             
             dialog = $( "#dialog-form" ).dialog({
@@ -174,7 +192,8 @@ function updatePost()
               buttons: {
                 "Update post": updPost,
                 Cancel: function() {
-                  dialog.dialog( "close" );
+                    form[ 0 ].reset();
+                    dialog.dialog( "close" );
                 }
               },
               close: function() {
@@ -190,20 +209,19 @@ function updatePost()
             dialog.dialog( "open" );
 
 
+        var url = "{{ path('getpost') }}" + "/" + $('#postid').val();
         $.ajax({
             async: true,
             url: url,
-            data: {
-                'id': id,
-                'name': name,
-                'title': title,
-                'text': text
-            },
             dataType: 'json',
-            method: 'put'
-
-        }).done(function() {
-           return true;
+            method: 'get',
+            success: function (data) {
+                $.each(data, function(index, e) {
+                    $('#name').val(e.name);
+                    $('#title').val(e.title);
+                    $('#post').val(e.post);
+                });
+            }
         }); 
     
 }
